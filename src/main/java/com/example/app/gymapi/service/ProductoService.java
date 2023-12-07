@@ -21,6 +21,7 @@ public class ProductoService implements IService<ProductoDto> {
      */
     @Override
     public ProductoDto create(ProductoDto dto) {
+        System.out.println(mapper.toBean(dto));
         return null;
     }
 

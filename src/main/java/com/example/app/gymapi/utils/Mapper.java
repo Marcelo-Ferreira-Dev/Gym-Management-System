@@ -5,6 +5,7 @@ import com.example.app.gymapi.interfaces.IMapper;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,11 +16,11 @@ public  class Mapper<B extends AbstractBean,D extends AbstractDto>  implements I
     }
 
 
-    public B toBean(D dto, Class<B> beanClass) {
-        return modelMapper.map(dto, beanClass);
+    public B toBean(D dto) {
+        return modelMapper.map(dto, new TypeToken<B>() {}.getType());
     }
 
-    public D toDto(B bean, Class<D> dtoClass) {
-        return modelMapper.map(bean, dtoClass);
+    public D toDto(B bean) {
+        return modelMapper.map(bean, new TypeToken<D>() {}.getType());
     }
 }
