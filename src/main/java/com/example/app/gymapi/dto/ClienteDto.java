@@ -1,18 +1,16 @@
-package com.example.app.gymapi.bean.clientes;
+package com.example.app.gymapi.dto;
 
-import com.example.app.gymapi.abstracts.AbstractBean;
+import com.example.app.gymapi.abstracts.AbstractDto;
 import lombok.Data;
-
-import java.time.LocalDate;
 import java.util.Date;
 
 @Data
-public class Cliente extends AbstractBean {
+public class ClienteDto extends AbstractDto {
     private String nombre;
     private String cedula;
     private String ruc;
     private String telefono;
     private String email;
     private String direccion;
-    private LocalDate fecha_registro;
+    private Date fecha_registro;
 }
