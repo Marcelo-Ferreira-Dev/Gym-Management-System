@@ -14,5 +14,7 @@ public interface IService<T extends AbstractDto> {
     T update(Long id, T dto);
 
     boolean delete(Long id);
+
+    Page<T> searchByNombre(String nombre, int page);
 }
 
