@@ -13,5 +13,4 @@ public class ProductoDto extends AbstractDto {
     private int cantidad;
     private double iva;
     private double costoCompra;
-    private boolean activo;
 }
