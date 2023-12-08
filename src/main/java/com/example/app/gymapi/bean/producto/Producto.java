@@ -24,6 +24,4 @@ public class Producto extends AbstractBean {
     private double iva;
     @Column
     private double costoCompra;
-    @Column
-    private boolean activo;
 }
