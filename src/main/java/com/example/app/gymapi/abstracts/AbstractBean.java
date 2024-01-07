@@ -9,7 +9,7 @@ public abstract class AbstractBean implements IBean {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
+    @Column(columnDefinition = "boolean default true")
     private boolean activo;
 }
 
