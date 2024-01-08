@@ -1,4 +1,4 @@
-package com.example.app.gymapi.dto;
+package com.example.app.gymapi.dto.cliente;
 
 import com.example.app.gymapi.abstracts.AbstractDto;
 import jakarta.annotation.Nullable;
