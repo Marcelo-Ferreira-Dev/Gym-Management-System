@@ -3,6 +3,7 @@ package com.example.app.gymapi.service;
 import com.example.app.gymapi.bean.caja.Caja;
 import com.example.app.gymapi.dao.CajaDao;
 import com.example.app.gymapi.dto.CajaDto;
+import com.example.app.gymapi.dto.PageResponse;
 import com.example.app.gymapi.interfaces.IMapper;
 import com.example.app.gymapi.interfaces.IService;
 import com.example.app.gymapi.utils.Setting;
@@ -58,11 +59,18 @@ public class CajaService implements IService<CajaDto> {
 
     @Override
     @Transactional
-    public Page<CajaDto> getAll(int page) {
+    public PageResponse<CajaDto> getAll(int page) {
         Pageable pageable = PageRequest.of(page - 1, Setting.PAGE_SIZE);
         Page<Caja> cajasActivas = cajaDao.findAllByActivoIsTrue(pageable);
 
-        return cajasActivas.map(caja -> mapper.toDto(caja, CajaDto.class));
+        Page<CajaDto> cajasDto = cajasActivas.map(caja -> mapper.toDto(caja, CajaDto.class));
+
+        PageResponse<CajaDto> pageResponse = new PageResponse<>(cajasDto.getContent(),
+                cajasDto.getTotalPages(),
+                cajasDto.getTotalElements(),
+                cajasDto.getNumber() + 1);
+
+        return pageResponse;
     }
 
     @Override
@@ -107,7 +115,7 @@ public class CajaService implements IService<CajaDto> {
      * @return
      */
     @Override
-    public Page<CajaDto> searchByNombre(String nombre, int page) {
+    public PageResponse<CajaDto> searchByNombre(String nombre, int page) {
         return null;
     }
 }
