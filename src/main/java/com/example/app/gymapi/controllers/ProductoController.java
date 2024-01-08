@@ -1,5 +1,6 @@
 package com.example.app.gymapi.controllers;
 
+import com.example.app.gymapi.dto.PageResponse;
 import com.example.app.gymapi.dto.ProductoDto;
 import com.example.app.gymapi.interfaces.IService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,37 +29,20 @@ public class ProductoController {
     }
 
     @GetMapping("/page/{page}")
-    public ResponseEntity<Map<String, Object>> getAllProductos(@PathVariable int page) {
+    public ResponseEntity<PageResponse<ProductoDto>> getAllProductos(@PathVariable int page) {
         try {
-            Page<ProductoDto> productos = productoService.getAll(page);
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("productos", productos.getContent()); // Agrega la lista de productos al mapa
-
-            // Añadir información de paginación
-            response.put("currentPage", productos.getNumber() + 1);
-            response.put("totalItems", productos.getTotalElements());
-            response.put("totalPages", productos.getTotalPages());
-
-            return ResponseEntity.ok(response);
+            PageResponse<ProductoDto> productos = productoService.getAll(page);
+            return ResponseEntity.ok(productos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     @GetMapping("/search/{nombre}/page/{page}")
-    public ResponseEntity<Map<String, Object>> searchProductosByNombre(@PathVariable String nombre,@PathVariable int page) {
+    public ResponseEntity<PageResponse<ProductoDto>> searchProductosByNombre(@PathVariable String nombre,@PathVariable int page) {
         try {
-            Page<ProductoDto> productos = productoService.searchByNombre(nombre,page);
+            PageResponse<ProductoDto> productos = productoService.searchByNombre(nombre,page);
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("productos", productos.getContent()); // Agrega la lista de productos al mapa
-
-            // Añadir información de paginación
-            response.put("currentPage", productos.getNumber() + 1);
-            response.put("totalItems", productos.getTotalElements());
-            response.put("totalPages", productos.getTotalPages());
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(productos);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

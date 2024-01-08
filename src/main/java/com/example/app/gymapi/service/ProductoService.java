@@ -2,6 +2,7 @@ package com.example.app.gymapi.service;
 
 import com.example.app.gymapi.bean.producto.Producto;
 import com.example.app.gymapi.dao.ProductoDao;
+import com.example.app.gymapi.dto.PageResponse;
 import com.example.app.gymapi.dto.ProductoDto;
 import com.example.app.gymapi.interfaces.IMapper;
 import com.example.app.gymapi.interfaces.IService;
@@ -68,12 +69,17 @@ public class ProductoService implements IService<ProductoDto> {
      */
     @Override
     @Transactional
-    public Page<ProductoDto> getAll(int page) {
+    public PageResponse<ProductoDto> getAll(int page) {
         Pageable pageable = PageRequest.of(page - 1, Setting.PAGE_SIZE);
         Page<Producto> productosActivos = productoDao.findAllByActivoIsTrue(pageable);
 
         Page<ProductoDto> productoDtoList = productosActivos.map(producto -> mapper.toDto(producto, ProductoDto.class) );
 
+        PageResponse<ProductoDto> pageResponse = new PageResponse<>(productoDtoList.getContent(),
+                productoDtoList.getTotalPages(),
+                productoDtoList.getTotalElements(),
+                productoDtoList.getNumber() + 1);
+
         // Cachear manualmente cada producto en Redis
 //        for (ProductoDto productoDto : productoDtoList) {
 //            String cacheName = "sd::api_productos";
@@ -89,16 +95,21 @@ public class ProductoService implements IService<ProductoDto> {
 //            }
 //        }
 
-        return productoDtoList;
+        return pageResponse;
     }
     @Transactional
     @Override
-    public Page<ProductoDto> searchByNombre(String nombre,int page) {
+    public PageResponse<ProductoDto> searchByNombre(String nombre,int page) {
         Pageable pageable = PageRequest.of(page - 1, Setting.PAGE_SIZE);
         Page<Producto> productosActivos = productoDao.findAllByActivoIsTrueAndNombreContaining(nombre,pageable);
 
         Page<ProductoDto> productoDtoList = productosActivos.map(producto -> mapper.toDto(producto, ProductoDto.class) );
 
+        PageResponse<ProductoDto> pageResponse = new PageResponse<>(productoDtoList.getContent(),
+                productoDtoList.getTotalPages(),
+                productoDtoList.getTotalElements(),
+                productoDtoList.getNumber() + 1);
+
         // Cachear manualmente cada producto en Redis
 //        for (ProductoDto productoDto : productoDtoList) {
 //            String cacheName = "sd::api_productos";
@@ -114,7 +125,7 @@ public class ProductoService implements IService<ProductoDto> {
 //            }
 //        }
 
-        return productoDtoList;
+        return pageResponse;
     }
 
     /**
