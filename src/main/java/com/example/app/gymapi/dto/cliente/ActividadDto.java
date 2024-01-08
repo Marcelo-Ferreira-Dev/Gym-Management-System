@@ -1,10 +1,10 @@
-package com.example.app.gymapi.bean.clientes;
+package com.example.app.gymapi.dto.cliente;
 
-import com.example.app.gymapi.abstracts.AbstractBean;
+import com.example.app.gymapi.abstracts.AbstractDto;
 import lombok.Data;
 
 @Data
-public class Actividad extends AbstractBean {
+public class ActividadDto extends AbstractDto {
     private String nombre;
     private String descripcion;
     private Integer costoMensual;
